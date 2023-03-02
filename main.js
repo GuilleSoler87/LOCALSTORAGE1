@@ -6,30 +6,30 @@
 ////////HECHO//////////
 
 
-// Guardar en Local Storage los datos de contacto rellenados del usuario (solo guarda un usuario)
+// // Guardar en Local Storage los datos de contacto rellenados del usuario (solo guarda un usuario)
 
-const form = document.getElementById("formulario");
-const nombreInput = form.elements['nombre'];
-const emailInput = form.elements['email'];
-const mensajeInput = form.elements['mensaje'];
-const container = document.querySelector(".container");
+// const form = document.getElementById("formulario");
+// const nombreInput = form.elements['nombre'];
+// const emailInput = form.elements['email'];
+// const mensajeInput = form.elements['mensaje'];
+// const container = document.querySelector(".container");
 
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
+// form.addEventListener('submit', function (e) {
+//     e.preventDefault();
 
-    const nombre = nombreInput.value;
-    const email = emailInput.value;
-    const mensaje = mensajeInput.value;
+//     const nombre = nombreInput.value;
+//     const email = emailInput.value;
+//     const mensaje = mensajeInput.value;
 
-localStorage.setItem('userData', JSON.stringify({ nombre, email, mensaje }));
-});
+// localStorage.setItem('userData', JSON.stringify({ nombre, email, mensaje }));
+// });
 
 
-// // // Muestra el usuario que has guardado en el DOM
+// // // // Muestra el usuario que has guardado en el DOM
 
-let userData = JSON.parse(localStorage.getItem('userData'))
-console.log(userData)
-container.innerHTML = "<p>"+userData.nombre + "<br>" + "<br>" + userData.email + "<br>" + "<br>" + userData.mensaje + "</p>"
+// let userData = JSON.parse(localStorage.getItem('userData'))
+// console.log(userData)
+// container.innerHTML = "<p>"+userData.nombre + "<br>" + "<br>" + userData.email + "<br>" + "<br>" + userData.mensaje + "</p>"
 
 
 
@@ -58,37 +58,39 @@ form.addEventListener('submit', function (e) {
 
 
     localStorage.setItem("usuarios", JSON.stringify(inData));
+    pintar()
 });
 
 // Mostrar los datos de los contactos guardados en el DOM
 
+function pintar() {
+    const inData = JSON.parse(localStorage.getItem("usuarios")) || [];
 
-const inData = JSON.parse(localStorage.getItem("usuarios")) || [];
+    inData.forEach(function (persona) {
+        const div = document.createElement("div");
+        const nombreP = document.createElement("p");
+        const emailP = document.createElement("p");
+        const mensajeP = document.createElement("p");
 
-inData.forEach(function (persona) {
-    const div = document.createElement("div");
-    const nombreP = document.createElement("p");
-    const emailP = document.createElement("p");
-    const mensajeP = document.createElement("p");
+        nombreP.textContent = `Nombre: ${persona.nombre}`;
+        emailP.textContent = `Email: ${persona.email}`;
+        mensajeP.textContent = `Mensaje: ${persona.mensaje}`;
 
-    nombreP.textContent = `Nombre: ${persona.nombre}`;
-    emailP.textContent = `Email: ${persona.email}`;
-    mensajeP.textContent = `Mensaje: ${persona.mensaje}`;
-
-    div.appendChild(nombreP);
-    div.appendChild(emailP);
-    div.appendChild(mensajeP);
-    container2.appendChild(div);
-});
+        div.appendChild(nombreP);
+        div.appendChild(emailP);
+        div.appendChild(mensajeP);
+        container2.appendChild(div);
+    });
+}
+pintar()
 
 
 // Crea un botón para borrar todos los contactos guardados en Local Storage
 
 const btnBorrar = document.getElementById("btn-borrar");
-const containerBorrar = document.getElementById("container2");
 
 btnBorrar.addEventListener("click", function () {
 
     localStorage.removeItem("usuarios");
-
+    container2.innerHTML = ""
 });
